@@ -1,0 +1,27 @@
+//@version=4
+study("RSI14 with EMA", overlay=false)
+
+
+// Calculate RSI14
+rsi14 = rsi(close, 14)
+
+
+// Calculate EMA9 of RSI14
+ema9_rsi14 = ema(rsi14, 9)
+
+
+// Calculate WMA45 of RSI14
+wma45_rsi14 = wma(rsi14, 45)
+
+
+// Plot RSI14, EMA9 of RSI14, and WMA45 of RSI14
+rsi_color = rsi14 >= 80 ? color.red : (rsi14 <= 20 ? color.lime : color.white)
+plot(rsi14, color=rsi_color, linewidth=2)
+plot(ema9_rsi14, color=color.orange, linewidth=2)
+plot(wma45_rsi14, color=color.green, linewidth=2)
+
+
+// Plot overbought and oversold lines
+hline(80, color=color.white, linestyle=hline.style_dotted)
+hline(20, color=color.white, linestyle=hline.style_dotted)
+hline(50, color =color.white, linestyle=hline.style_dotted)

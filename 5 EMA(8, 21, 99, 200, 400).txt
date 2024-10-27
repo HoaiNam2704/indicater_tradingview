@@ -1,0 +1,44 @@
+//@version=5
+indicator(title="Moving Average Exponential", shorttitle="EMA", overlay=true, timeframe="", timeframe_gaps=true)
+
+len_8 = input.int(8, minval=1, title="Length")
+len_21 = input.int(21, minval=1, title="Length")
+len_99 = input.int(99, minval=1, title="Length")
+len_200 = input.int(200, minval=1, title="Length")
+len_400 = input.int(400, minval=1, title="Length")
+
+src = input(close, title="Source")
+offset = input.int(title="Offset", defval=0, minval=-500, maxval=500, display = display.data_window)
+out1 = ta.ema(src, len_8)
+out2 = ta.ema(src, len_21)
+out3 = ta.ema(src, len_99)
+out4 = ta.ema(src, len_200)
+out5 = ta.ema(src, len_400)
+
+plot(out1, title="EMA", color=#d12525, offset=offset)
+plot(out2, title="EMA", color=#d4781c, offset=offset)
+plot(out3, title="EMA", color=#e9da08, offset=offset)
+plot(out4, title="EMA", color=#2688d9, offset=offset)
+plot(out5, title="EMA", color=#720e8b, offset=offset)
+
+ma(source, length, type) =>
+    switch type
+        "SMA" => ta.sma(source, length)
+        "EMA" => ta.ema(source, length)
+        "SMMA (RMA)" => ta.rma(source, length)
+        "WMA" => ta.wma(source, length)
+        "VWMA" => ta.vwma(source, length)
+
+typeMA = input.string(title = "Method", defval = "SMA", options=["SMA", "EMA", "SMMA (RMA)", "WMA", "VWMA"], group="Smoothing", display = display.data_window)
+smoothingLength = input.int(title = "Length", defval = 5, minval = 1, maxval = 100, group="Smoothing", display = display.data_window)
+
+smoothingLine1 = ma(out1, smoothingLength, typeMA)
+smoothingLine2 = ma(out2, smoothingLength, typeMA)
+smoothingLine3 = ma(out3, smoothingLength, typeMA)
+smoothingLine4 = ma(out4, smoothingLength, typeMA)
+smoothingLine5 = ma(out5, smoothingLength, typeMA)
+plot(smoothingLine1, title="Smoothing Line", color=#f37f20, offset=offPolice are overset, display=display.none)
+plot(smoothingLine2, title="Smoothing Line", color=#f37f20, offset=offset, display=display.none)
+plot(smoothingLine3, title="Smoothing Line", color=#f37f20, offset=offset, display=display.none)
+plot(smoothingLine4, title="Smoothing Line", color=#f37f20, offset=offset, display=display.none)
+plot(smoothingLine5, title="Smoothing Line", color=#f37f20, offset=offset, display=display.none)
